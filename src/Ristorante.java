@@ -11,7 +11,7 @@ public class Ristorante {
 	private LinkedList<Cameriere> listaCamerieri;
 	private LinkedList<Ordinazione> listaOrdinazioni;
 	private LinkedList<Area> listAree;
-	private LinkedList<Tavolo> listaTavoli;
+	private LinkedList<AbstractTavolo> listaTavoli;
 	
 	public Ristorante(String nome, String telefono, String indirizzo, String email, 
 			String direttore){
@@ -24,7 +24,7 @@ public class Ristorante {
 		this.listaCamerieri = new LinkedList<Cameriere>();
 		this.listaOrdinazioni = new LinkedList<Ordinazione>();
 		this.listAree = new LinkedList<Area>();
-		this.listaTavoli = new LinkedList<Tavolo>();
+		this.listaTavoli = new LinkedList<AbstractTavolo>();
 		
 	}
 	
@@ -42,7 +42,7 @@ public class Ristorante {
 		this.listaCamerieri.remove(cameriere);
 	}
 	
-	public Ordinazione addOrdinazione(Tavolo tavolo, LocalDateTime data, Cameriere cameriere){
+	public Ordinazione addOrdinazione(AbstractTavolo tavolo, LocalDateTime data, Cameriere cameriere){
 		Ordinazione ordinazione = new Ordinazione(tavolo, data, cameriere);
 		if(tavolo.isDisponibile()){
 			this.listaOrdinazioni.add(ordinazione);
@@ -63,8 +63,15 @@ public class Ristorante {
 		ordinazione.addProdotto(prodotto);
 	}
 	
-	public Tavolo addTavolo(String tipo, int numero, Stanza stanza){
-		Tavolo tavolo = new Tavolo(tipo, numero);
+	public TavoloNormale addTavoloNormale(int numero, Stanza stanza){
+		TavoloNormale tavolo = new TavoloNormale(numero);
+		stanza.addTavolo(tavolo);
+		this.listaTavoli.add(tavolo);
+		return tavolo;
+	}
+	
+	public TavoloVIP addTavoloVIP(int numero, Stanza stanza){
+		TavoloVIP tavolo = new TavoloVIP(numero);
 		stanza.addTavolo(tavolo);
 		this.listaTavoli.add(tavolo);
 		return tavolo;
@@ -105,7 +112,7 @@ public class Ristorante {
 	
 	public int calcolaTavoliLiberi(){
 		int count=0;
-		for (Tavolo tavolo : listaTavoli) {
+		for (AbstractTavolo tavolo : listaTavoli) {
 			if(tavolo.isDisponibile())
 				count++;
 		}
@@ -127,7 +134,7 @@ public class Ristorante {
 		// Caso Base
 		else{
 			for (Stanza stanza : a.getListaStanze()){
-				for (Tavolo tavolo : stanza.getListaTavoli()){
+				for (AbstractTavolo tavolo : stanza.getListaTavoli()){
 					if(tavolo.isDisponibile())
 						count++;
 				}				
@@ -137,37 +144,27 @@ public class Ristorante {
 	}
 	
 	public int getRendimentoTavoliVIP(){
-		int count=0;
+		Contatore contatore = new Contatore();
+		IOperazioneSuTavoli iop = new CalcolaRendimentoTavoliVIP(contatore);
 		for (Ordinazione ordinazione : listaOrdinazioni) {
-			if(ordinazione.getTavolo().getTipo().equals("VIP"))
-				count=count+2;
+			ordinazione.getTavolo().eseguiOperazione(iop);
 		}
-		return count;
+		return contatore.getValoreContatore();
 	}
 	
-	public int getRendimentoTavoliNormali(){
-		int count=0;
-		for (Ordinazione ordinazione : listaOrdinazioni) {
-			if(ordinazione.getTavolo().getTipo().equals("Normale"))
-				count++;
-		}
-		return count;
-	}
 	
 	public boolean getPreferenzaTavoliVIPSettimanaPassata(){
-		int tavVIP=0;
-		int tavNor=0;
+		Contatore tavVIP=new Contatore();
+		Contatore tavNor=new Contatore();
+		IOperazioneSuTavoli iop = new CalcolaPreferenzaTavoli(tavVIP, tavNor);
 		for (Ordinazione ordinazione : listaOrdinazioni) {
 			if(ordinazione.getData().isAfter(LocalDateTime.now().minusDays(1).minusWeeks(1)) &&
 					ordinazione.getData().isBefore(LocalDateTime.now().plusDays(1))){
-				if(ordinazione.getTavolo().getTipo().equals("Normale"))
-					tavNor++;
-				else if(ordinazione.getTavolo().getTipo().equals("VIP"))
-					tavVIP++;
+				ordinazione.getTavolo().eseguiOperazione(iop);
 			}
 		}
 		
-		return tavVIP>=tavNor;
+		return tavVIP.getValoreContatore()>=tavNor.getValoreContatore();
 		
 	}
 	

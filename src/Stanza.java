@@ -2,7 +2,7 @@ import java.util.LinkedList;
 
 public class Stanza {
 	
-	private LinkedList<Tavolo> listaTavoli;
+	private LinkedList<AbstractTavolo> listaTavoli;
 	private String nome;
 	
 	public Stanza(String nome){
@@ -10,11 +10,11 @@ public class Stanza {
 		this.listaTavoli=new LinkedList<>();
 	}
 	
-	public void addTavolo(Tavolo tavolo){
+	public void addTavolo(AbstractTavolo tavolo){
 		this.listaTavoli.add(tavolo);
 	}
 	
-	public LinkedList<Tavolo> getListaTavoli(){
+	public LinkedList<AbstractTavolo> getListaTavoli(){
 		return this.listaTavoli;
 	}
 

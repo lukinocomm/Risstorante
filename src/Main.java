@@ -30,12 +30,12 @@ public class Main {
 		Stanza s6 = ristorante.addStanza("S6", a6);
 		Stanza s7 = ristorante.addStanza("S7", a6);
 		
-		Tavolo t1 = ristorante.addTavolo("Normale", 1, s1);
-		Tavolo t2 = ristorante.addTavolo("Normale", 2, s1);
-		Tavolo t3 = ristorante.addTavolo("Normale", 3, s1);
-		Tavolo t4 = ristorante.addTavolo("VIP", 4, s2);
-		Tavolo t5 = ristorante.addTavolo("VIP", 5, s3);
-		Tavolo t6 = ristorante.addTavolo("Normale", 6, s4);
+		TavoloNormale t1 = ristorante.addTavoloNormale(1, s1);
+		TavoloNormale t2 = ristorante.addTavoloNormale(2, s1);
+		TavoloNormale t3 = ristorante.addTavoloNormale(3, s1);
+		TavoloVIP t4 = ristorante.addTavoloVIP(4, s2);
+		TavoloVIP t5 = ristorante.addTavoloVIP(5, s3);
+		TavoloNormale t6 = ristorante.addTavoloNormale(6, s4);
 		
 		System.out.println("Tavoli Liberi "+ristorante.calcolaTavoliLiberi());
 		System.out.println("Ordinazioni In Corso "+ristorante.calcolaOrdinazioniInCorso());
@@ -61,7 +61,6 @@ public class Main {
 		System.out.println("Tavoli Disp in area A11 "+ristorante.getTavoliLiberiInArea(a11));
 		System.out.println("Tavoli Disp in area A1 "+ristorante.getTavoliLiberiInArea(a1));
 		
-		System.out.println("Rendimento Tavoli Normali "+ristorante.getRendimentoTavoliNormali());
 		System.out.println("Rendimento Tavoli VIP "+ristorante.getRendimentoTavoliVIP());
 		
 		System.out.println(ristorante.getPreferenzaTavoliVIPSettimanaPassata());

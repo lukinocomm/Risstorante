@@ -3,13 +3,13 @@ import java.util.LinkedList;
 
 public class Ordinazione {
 	
-	private Tavolo tavolo;
+	private AbstractTavolo tavolo;
 	private LocalDateTime data;
 	private LinkedList<String> listaProdottiOrdinati;
 	private boolean inCorso;
 	private Cameriere cameriere;
 	
-	public Ordinazione(Tavolo tavolo, LocalDateTime data, Cameriere cameriere){
+	public Ordinazione(AbstractTavolo tavolo, LocalDateTime data, Cameriere cameriere){
 		this.setTavolo(tavolo);
 		this.setData(data);
 		this.listaProdottiOrdinati = new LinkedList<>();
@@ -17,11 +17,11 @@ public class Ordinazione {
 		this.setCameriere(cameriere);
 	}
 
-	public Tavolo getTavolo() {
+	public AbstractTavolo getTavolo() {
 		return tavolo;
 	}
 
-	public void setTavolo(Tavolo tavolo) {
+	public void setTavolo(AbstractTavolo tavolo) {
 		this.tavolo = tavolo;
 	}
 
