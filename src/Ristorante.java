@@ -96,17 +96,17 @@ public class Ristorante {
 	}
 	
 	public void archiviaOrdinazione(Ordinazione ordinazione){
-		ordinazione.setInCorso(false);
+		ordinazione.archiviaOrdinazione();
 		ordinazione.getTavolo().setDisponibile(true);
 	}
 	
 	public int calcolaOrdinazioniInCorso(){
-		int count=0;
+		Contatore count=new Contatore();
+		CalcolaOrdinazioniInCorso operazione = new CalcolaOrdinazioniInCorso(count);
 		for (Ordinazione ordinazione : listaOrdinazioni) {
-			if(ordinazione.isInCorso())
-				count++;
+			ordinazione.getStatoOrdinazione().eseguiOperazione(operazione);
 		}
-		return count;
+		return count.getValoreContatore();
 	}
 	
 	
@@ -158,8 +158,7 @@ public class Ristorante {
 		Contatore tavNor=new Contatore();
 		IOperazioneSuTavoli iop = new CalcolaPreferenzaTavoli(tavVIP, tavNor);
 		for (Ordinazione ordinazione : listaOrdinazioni) {
-			if(ordinazione.getData().isAfter(LocalDateTime.now().minusDays(1).minusWeeks(1)) &&
-					ordinazione.getData().isBefore(LocalDateTime.now().plusDays(1))){
+			if(ordinazione.verificaOrdinazioneNelPeriodo()){
 				ordinazione.getTavolo().eseguiOperazione(iop);
 			}
 		}

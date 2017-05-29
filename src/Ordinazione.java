@@ -6,15 +6,17 @@ public class Ordinazione {
 	private AbstractTavolo tavolo;
 	private LocalDateTime data;
 	private LinkedList<String> listaProdottiOrdinati;
-	private boolean inCorso;
 	private Cameriere cameriere;
+	private IStrategiaOrdinazione verificaData;
+	private IState statoOrdinazione;
 	
 	public Ordinazione(AbstractTavolo tavolo, LocalDateTime data, Cameriere cameriere){
 		this.setTavolo(tavolo);
 		this.setData(data);
 		this.listaProdottiOrdinati = new LinkedList<>();
-		this.setInCorso(true);
 		this.setCameriere(cameriere);
+		this.verificaData = new VerificaUltimaSettimana();
+		this.statoOrdinazione=new OrdinazioneInCorso();
 	}
 
 	public AbstractTavolo getTavolo() {
@@ -40,13 +42,9 @@ public class Ordinazione {
 	public void addProdotto(String prodotto) {
 		this.listaProdottiOrdinati.add(prodotto);
 	}
-
-	public boolean isInCorso() {
-		return inCorso;
-	}
-
-	public void setInCorso(boolean inCorso) {
-		this.inCorso = inCorso;
+	
+	public void archiviaOrdinazione(){
+		this.statoOrdinazione=new OrdinazioneNonInCorso();
 	}
 
 	public Cameriere getCameriere() {
@@ -57,8 +55,17 @@ public class Ordinazione {
 		this.cameriere = cameriere;
 	}
 	
+	public boolean verificaOrdinazioneNelPeriodo(){
+		return this.verificaData.eseguiVerificaData(this.data);
+	}
 	
+	public void cambiaIntervalloDiVerificaDellaData(IStrategiaOrdinazione istr){
+		this.verificaData=istr;
+	}
 	
+	public IState getStatoOrdinazione(){
+		return this.statoOrdinazione;
+	}
 	
 
 }
