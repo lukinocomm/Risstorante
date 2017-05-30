@@ -1,32 +1,23 @@
 import java.util.LinkedList;
 
-public class Area {
+public class Area implements ISettore{
 	
-	private LinkedList<Area> listaAree;
-	private LinkedList<Stanza> listaStanze;
+	private LinkedList<ISettore> listaSettori;
 	private String nome;
 	
 	public Area(String nome){
 		this.setNome(nome);
-		this.listaAree=new LinkedList<>();
-		this.listaStanze=new LinkedList<>();
+		this.listaSettori=new LinkedList<>();
 	}
 	
-	public void addArea(Area area){
-		this.listaAree.add(area);
+	public void addAreaOStanza(ISettore isett){
+		this.listaSettori.add(isett);
 	}
 	
-	public LinkedList<Area> getListaAree(){
-		return this.listaAree;
+	public LinkedList<ISettore> getListaSettori(){
+		return this.listaSettori;
 	}
-	
-	public void addStanza(Stanza stanza){
-		this.listaStanze.add(stanza);
-	}
-	
-	public LinkedList<Stanza> getListaStanze(){
-		return this.listaStanze;
-	}
+
 
 	public String getNome() {
 		return nome;
@@ -34,6 +25,12 @@ public class Area {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	@Override
+	public void eseguiOperazione(IOperazioneSuSettore iop) {
+		iop.applicaOperazione(this);
+		
 	}
 	
 	

@@ -1,6 +1,6 @@
 import java.util.LinkedList;
 
-public class Stanza {
+public class Stanza implements ISettore{
 	
 	private LinkedList<AbstractTavolo> listaTavoli;
 	private String nome;
@@ -24,6 +24,12 @@ public class Stanza {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	@Override
+	public void eseguiOperazione(IOperazioneSuSettore iop) {
+		iop.applicaOperazione(this);
+		
 	}
 	
 	

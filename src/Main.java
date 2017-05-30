@@ -37,8 +37,8 @@ public class Main {
 		TavoloVIP t5 = ristorante.addTavoloVIP(5, s3);
 		TavoloNormale t6 = ristorante.addTavoloNormale(6, s4);
 		
-		System.out.println("Tavoli Liberi "+ristorante.calcolaTavoliLiberi());
-		System.out.println("Ordinazioni In Corso "+ristorante.calcolaOrdinazioniInCorso());
+		System.out.println("Tavoli Liberi "+ristorante.getTavoliLiberi());
+		System.out.println("Ordinazioni In Corso "+ristorante.getOrdinazioniInCorso());
 		
 		Ordinazione ord1 = ristorante.addOrdinazione(t1, LocalDateTime.now().minusHours(1), cameriere1);
 		Ordinazione ord2 = ristorante.addOrdinazione(t2, LocalDateTime.now().minusHours(2), cameriere2);
@@ -50,13 +50,13 @@ public class Main {
 		
 		System.out.println(ristorante.getListaOrdinazioni().size());
 		
-		System.out.println("Tavoli Liberi "+ristorante.calcolaTavoliLiberi());
-		System.out.println("Ordinazioni In Corso "+ristorante.calcolaOrdinazioniInCorso());
+		System.out.println("Tavoli Liberi "+ristorante.getTavoliLiberi());
+		System.out.println("Ordinazioni In Corso "+ristorante.getOrdinazioniInCorso());
 		
-		ristorante.archiviaOrdinazione(ord3);
+		ristorante.liberaTavolo(ord3);
 		
-		System.out.println("Tavoli Liberi "+ristorante.calcolaTavoliLiberi());
-		System.out.println("Ordinazioni In Corso "+ristorante.calcolaOrdinazioniInCorso());
+		System.out.println("Tavoli Liberi "+ristorante.getTavoliLiberi());
+		System.out.println("Ordinazioni In Corso "+ristorante.getOrdinazioniInCorso());
 		
 		System.out.println("Tavoli Disp in area A11 "+ristorante.getTavoliLiberiInArea(a11));
 		System.out.println("Tavoli Disp in area A1 "+ristorante.getTavoliLiberiInArea(a1));
